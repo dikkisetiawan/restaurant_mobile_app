@@ -4,6 +4,8 @@ import 'package:restorant/home/explore.dart';
 import 'package:restorant/provider/jalan.dart';
 import 'package:restorant/saved_page.dart';
 
+import '../home/setting.dart';
+
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const ExplorePage(),
     const jalankan(),
     const SavedScreen(),
+    const SettingScreen()
     // SettingScreen()
   ];
   @override
@@ -47,16 +50,16 @@ class _BottomNavbarState extends State<BottomNavbar> {
             title: const Text('List'),
             inactiveColor: Colors.blue,
           ),
-
           FlashyTabBarItem(
             icon: const Icon(Icons.favorite),
             title: const Text('Favorite'),
             inactiveColor: Colors.blue,
           ),
-          // FlashyTabBarItem(
-          //   icon: Icon(Icons.settings),
-          //   title: Text('Settings'),
-          // ),
+          FlashyTabBarItem(
+            icon: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            inactiveColor: Colors.blue,
+          ),
         ],
       ),
     );

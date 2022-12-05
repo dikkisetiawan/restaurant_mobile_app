@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restorant/splashscreen.dart';
 
+import 'widget/bottom_navbar.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const BottomNavbar(),
     );
   }
 }
