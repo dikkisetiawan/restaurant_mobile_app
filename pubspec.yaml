@@ -40,9 +40,11 @@ dependencies:
   flashy_tab_bar2: ^0.0.5
   connectivity_plus: ^2.3.9
   rxdart: ^0.27.7
-  flutter_local_notifications: ^12.0.4
+
   cron: ^0.5.1
   provider: ^6.0.4
+  awesome_notifications: ^0.7.4+1
+
 
 dev_dependencies:
   flutter_launcher_icons: "^0.11.0"

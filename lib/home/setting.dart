@@ -1,14 +1,91 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+import '../main.dart';
+
+class SettingScreen extends StatefulWidget {
+  ReceivedAction? receivedAction;
+  SettingScreen({super.key, this.receivedAction});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  bool switched = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Setting')),
+      appBar: AppBar(
+          leading:
+              IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+          centerTitle: true,
+          title: const Text('Settings')),
+      body: ListTile(
+        title: const Text('Scheduling News Restaurant'),
+        trailing: Switch(
+          value: switched,
+          activeColor: Colors.blue,
+          onChanged: (bool value) {
+            AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+              if (!isAllowed) {
+                // This is just a basic example. For real apps, you must show some
+                // friendly dialog box before call the request method.
+                // This is very important to not harm the user experience
+                AwesomeNotifications().requestPermissionToSendNotifications();
+              }
+            });
+
+            setState(() {
+              switched = value;
+            });
+
+            AwesomeNotifications().createNotification(
+                content: NotificationContent(
+                    id: 10,
+                    channelKey: 'basic_channel',
+                    title: 'Simple Notification',
+                    body: 'Simple body',
+                    actionType: ActionType.Default));
+          },
+        ),
+      ),
     );
+  }
+}
+
+class NotificationController {
+  /// Use this method to detect when a new notification or a schedule is created
+  @pragma("vm:entry-point")
+  static Future<void> onNotificationCreatedMethod(
+      ReceivedNotification receivedNotification) async {
+    // Your code goes here
+  }
+
+  /// Use this method to detect every time that a new notification is displayed
+  @pragma("vm:entry-point")
+  static Future<void> onNotificationDisplayedMethod(
+      ReceivedNotification receivedNotification) async {
+    // Your code goes here
+  }
+
+  /// Use this method to detect if the user dismissed a notification
+  @pragma("vm:entry-point")
+  static Future<void> onDismissActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+    // Your code goes here
+  }
+
+  /// Use this method to detect when the user taps on a notification or action button
+  @pragma("vm:entry-point")
+  static Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+    // Your code goes here
+
+    // Navigate into pages, avoiding to open the notification details page over another details page already opened
+    MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        '/', (route) => (route.settings.name != '/') || route.isFirst,
+        arguments: receivedAction);
   }
 }

@@ -20,9 +20,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const ExplorePage(),
     const jalankan(),
     const SavedScreen(),
-    const SettingScreen()
+    SettingScreen()
     // SettingScreen()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
