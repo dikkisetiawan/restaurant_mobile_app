@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/src/models/received_models/received_action.dart';
 import 'package:flutter/material.dart';
 import 'package:restorant/data/api/api_detail.dart';
 import 'package:restorant/data/model/detail_restaurant_model.dart';
@@ -6,6 +7,7 @@ import 'package:restorant/data/model/list_restaurant_model.dart';
 import 'package:restorant/response.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
 // ignore: must_be_immutable
 class DetailrestoranPage extends StatefulWidget {
   DetailrestoranPage({Key? key, required this.restaurants}) : super(key: key);
@@ -151,7 +153,7 @@ class _DetailrestoranState extends State<DetailrestoranPage> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(
-                                  "https://restaurant-api.dicoding.dev/images/medium/${detailrestoran!.restaurant!.pictureId}"),
+                                  "https://restaurant-api.dicoding.dev/images/medium/${detailrestoran?.restaurant?.pictureId ?? ''}"),
                               fit: BoxFit.fill)),
                     ),
                     Container(
@@ -212,7 +214,8 @@ class _DetailrestoranState extends State<DetailrestoranPage> {
                               margin: const EdgeInsets.only(left: 5),
                               width: double.infinity,
                               child: Text(
-                                detailrestoran!.restaurant!.name.toString(),
+                                detailrestoran?.restaurant?.name.toString() ??
+                                    '-',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 25),
                               ),

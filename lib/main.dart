@@ -2,9 +2,11 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:restorant/home/setting.dart';
 
+import 'data/model/list_restaurant_model.dart';
+import 'home/detail.dart';
 import 'widget/bottom_navbar.dart';
 
-void main() async {
+void main() {
   AwesomeNotifications().initialize(
       // set the icon to null if you want to use the default app icon
       null,
@@ -73,6 +75,14 @@ class _MyAppState extends State<MyApp> {
 
           case '/setting':
             return MaterialPageRoute(builder: (context) => SettingScreen());
+
+          case '/detail-resto':
+            return MaterialPageRoute(builder: (context) {
+              final Restaurants restaurant = settings.arguments as Restaurants;
+              return DetailrestoranPage(
+                restaurants: restaurant,
+              );
+            });
 
           default:
             assert(false, 'Page ${settings.name} not found');

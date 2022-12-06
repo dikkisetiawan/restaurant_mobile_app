@@ -1,6 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:restorant/home/explore.dart';
 
+import '../data/model/list_restaurant_model.dart';
 import '../main.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -81,11 +83,12 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
+    Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![5];
     // Your code goes here
 
     // Navigate into pages, avoiding to open the notification details page over another details page already opened
-    MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/', (route) => (route.settings.name != '/') || route.isFirst,
-        arguments: receivedAction);
+    MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil('/detail-resto',
+        (route) => (route.settings.name != '/detail-resto') || route.isFirst,
+        arguments: restaurant);
   }
 }

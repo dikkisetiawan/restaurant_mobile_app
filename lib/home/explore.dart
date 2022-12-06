@@ -7,16 +7,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restorant/response.dart';
 import 'package:restorant/search/searchscreen.dart';
 
-
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
+
+  static ListRestaurant? listRestaurant;
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
 }
 
 class _ExplorePageState extends State<ExplorePage> {
-  ListRestaurant? listRestaurant;
   bool isload = true;
   bool succes = false;
   double? rate;
@@ -28,7 +28,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
     if (response.error == null) {
       setState(() {
-        listRestaurant = response.data as ListRestaurant;
+        ExplorePage.listRestaurant = response.data as ListRestaurant;
         succes = true;
         isload = false;
       });
@@ -105,8 +105,8 @@ class _ExplorePageState extends State<ExplorePage> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          listRestaurant!.restaurants!.length,
+                                      itemCount: ExplorePage
+                                          .listRestaurant!.restaurants!.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return InkWell(
@@ -116,7 +116,8 @@ class _ExplorePageState extends State<ExplorePage> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     DetailrestoranPage(
-                                                  restaurants: listRestaurant!
+                                                  restaurants: ExplorePage
+                                                      .listRestaurant!
                                                       .restaurants![index],
                                                 ),
                                               ),
@@ -143,12 +144,12 @@ class _ExplorePageState extends State<ExplorePage> {
                                                                 10)),
                                                     image: DecorationImage(
                                                         image: NetworkImage(
-                                                            "https://restaurant-api.dicoding.dev/images/medium/${listRestaurant!.restaurants![index].pictureId}"),
+                                                            "https://restaurant-api.dicoding.dev/images/medium/${ExplorePage.listRestaurant!.restaurants![index].pictureId}"),
                                                         fit: BoxFit.fill),
                                                   ),
                                                 ),
                                                 Text(
-                                                  listRestaurant!
+                                                  ExplorePage.listRestaurant!
                                                       .restaurants![index].name
                                                       .toString(),
                                                   style: const TextStyle(
@@ -157,7 +158,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 Text(
-                                                  listRestaurant!
+                                                  ExplorePage.listRestaurant!
                                                       .restaurants![index].city
                                                       .toString(),
                                                   style: const TextStyle(
@@ -174,7 +175,8 @@ class _ExplorePageState extends State<ExplorePage> {
                                                     children: [
                                                       RatingBarIndicator(
                                                         rating: double.parse(
-                                                            listRestaurant!
+                                                            ExplorePage
+                                                                .listRestaurant!
                                                                 .restaurants![
                                                                     index]
                                                                 .rating
@@ -196,12 +198,12 @@ class _ExplorePageState extends State<ExplorePage> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   left: 10),
-                                                          child: Text(
-                                                              listRestaurant!
-                                                                  .restaurants![
-                                                                      index]
-                                                                  .rating
-                                                                  .toString()),
+                                                          child: Text(ExplorePage
+                                                              .listRestaurant!
+                                                              .restaurants![
+                                                                  index]
+                                                              .rating
+                                                              .toString()),
                                                         ),
                                                       ),
                                                     ],
