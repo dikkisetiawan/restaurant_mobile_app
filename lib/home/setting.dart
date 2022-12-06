@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:restorant/home/explore.dart';
@@ -43,13 +45,26 @@ class _SettingScreenState extends State<SettingScreen> {
               switched = value;
             });
 
-            AwesomeNotifications().createNotification(
-                content: NotificationContent(
-                    id: 10,
-                    channelKey: 'basic_channel',
-                    title: 'Simple Notification',
-                    body: 'Simple body',
-                    actionType: ActionType.Default));
+            if (!switched) {
+              AwesomeNotifications().cancelAll();
+            } else {
+              Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![
+                  ExplorePage.listRestaurant!.restaurants!.length -
+                      NotificationController.decrement];
+
+              Future.delayed(
+                const Duration(seconds: 10),
+                () {
+                  AwesomeNotifications().createNotification(
+                      content: NotificationContent(
+                          id: 10,
+                          channelKey: 'basic_channel',
+                          title: 'Resto Baru! namanya: ${restaurant.name}',
+                          body: restaurant.description,
+                          actionType: ActionType.Default));
+                },
+              );
+            }
           },
         ),
       ),
@@ -58,6 +73,9 @@ class _SettingScreenState extends State<SettingScreen> {
 }
 
 class NotificationController {
+  static int decrement = 1;
+  static int lengt = ExplorePage.listRestaurant!.restaurants!.length - 5;
+
   /// Use this method to detect when a new notification or a schedule is created
   @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(
@@ -83,7 +101,14 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
-    Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![5];
+    Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![
+        ExplorePage.listRestaurant!.restaurants!.length - decrement];
+    decrement++;
+    if (lengt > -1 ||
+        lengt <= ExplorePage.listRestaurant!.restaurants!.length) {
+      lengt++;
+    }
+
     // Your code goes here
 
     // Navigate into pages, avoiding to open the notification details page over another details page already opened

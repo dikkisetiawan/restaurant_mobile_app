@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/src/models/received_models/received_action.dart';
 import 'package:flutter/material.dart';
 import 'package:restorant/data/api/api_detail.dart';
 import 'package:restorant/data/model/detail_restaurant_model.dart';

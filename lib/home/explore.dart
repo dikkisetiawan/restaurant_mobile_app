@@ -7,6 +7,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restorant/response.dart';
 import 'package:restorant/search/searchscreen.dart';
 
+import 'setting.dart';
+
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
@@ -105,8 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: ExplorePage
-                                          .listRestaurant!.restaurants!.length,
+                                      itemCount: NotificationController.lengt,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return InkWell(
