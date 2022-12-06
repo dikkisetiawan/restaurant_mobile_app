@@ -31,7 +31,12 @@ class _SettingScreenState extends State<SettingScreen> {
         trailing: Switch(
           value: switched,
           activeColor: Colors.blue,
-          onChanged: (bool value) {
+          onChanged: (bool value) async {
+            String localTimeZone =
+                await AwesomeNotifications().getLocalTimeZoneIdentifier();
+            String utcTimeZone =
+                await AwesomeNotifications().getLocalTimeZoneIdentifier();
+
             AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
               if (!isAllowed) {
                 // This is just a basic example. For real apps, you must show some
@@ -52,18 +57,15 @@ class _SettingScreenState extends State<SettingScreen> {
                   ExplorePage.listRestaurant!.restaurants!.length -
                       NotificationController.decrement];
 
-              Future.delayed(
-                const Duration(seconds: 10),
-                () {
-                  AwesomeNotifications().createNotification(
-                      content: NotificationContent(
-                          id: 10,
-                          channelKey: 'basic_channel',
-                          title: 'Resto Baru! namanya: ${restaurant.name}',
-                          body: restaurant.description,
-                          actionType: ActionType.Default));
-                },
-              );
+              AwesomeNotifications().createNotification(
+                  content: NotificationContent(
+                      id: 10,
+                      channelKey: 'basic_channel',
+                      title: 'Resto Baru! namanya: ${restaurant.name}',
+                      body: restaurant.description,
+                      actionType: ActionType.Default),
+                  schedule: NotificationCalendar(
+                      hour: 11, timeZone: localTimeZone, repeats: true));
             }
           },
         ),
@@ -74,6 +76,9 @@ class _SettingScreenState extends State<SettingScreen> {
 
 class NotificationController {
   static int decrement = 1;
+  static Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![
+      ExplorePage.listRestaurant!.restaurants!.length - decrement];
+
   static int lengt = ExplorePage.listRestaurant!.restaurants!.length - 5;
 
   /// Use this method to detect when a new notification or a schedule is created
@@ -87,7 +92,11 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future<void> onNotificationDisplayedMethod(
       ReceivedNotification receivedNotification) async {
-    // Your code goes here
+    decrement++;
+    if (lengt > -1 ||
+        lengt <= ExplorePage.listRestaurant!.restaurants!.length) {
+      lengt++;
+    }
   }
 
   /// Use this method to detect if the user dismissed a notification
@@ -101,19 +110,11 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
-    Restaurants restaurant = ExplorePage.listRestaurant!.restaurants![
-        ExplorePage.listRestaurant!.restaurants!.length - decrement];
-    decrement++;
-    if (lengt > -1 ||
-        lengt <= ExplorePage.listRestaurant!.restaurants!.length) {
-      lengt++;
-    }
-
     // Your code goes here
 
     // Navigate into pages, avoiding to open the notification details page over another details page already opened
     MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil('/detail-resto',
         (route) => (route.settings.name != '/detail-resto') || route.isFirst,
-        arguments: restaurant);
+        arguments: NotificationController.restaurant);
   }
 }
