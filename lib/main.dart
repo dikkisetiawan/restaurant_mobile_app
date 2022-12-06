@@ -71,8 +71,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return MaterialPageRoute(
-                builder: (context) => const BottomNavbar());
+            return MaterialPageRoute(builder: (context) => const LoginPage());
 
           case '/setting':
             return MaterialPageRoute(builder: (context) => SettingScreen());
