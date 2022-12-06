@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:restorant/home/setting.dart';
+import 'package:restorant/login_&_register/login.dart';
 
 import 'data/model/list_restaurant_model.dart';
 import 'home/detail.dart';
@@ -70,8 +71,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return MaterialPageRoute(
-                builder: (context) => const BottomNavbar());
+            return MaterialPageRoute(builder: (context) => const LoginPage());
 
           case '/setting':
             return MaterialPageRoute(builder: (context) => SettingScreen());
